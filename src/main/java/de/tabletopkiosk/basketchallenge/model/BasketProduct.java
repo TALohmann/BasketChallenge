@@ -52,4 +52,9 @@ public class BasketProduct implements IProduct {
 		}
 	}
 
+	@Override
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+
 }

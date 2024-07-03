@@ -18,4 +18,6 @@ public interface IProduct {
 
 	boolean isEmpty();
 
+	void setDiscount(double discount);
+
 }
