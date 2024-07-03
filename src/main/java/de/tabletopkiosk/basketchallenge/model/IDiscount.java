@@ -9,7 +9,7 @@ public interface IDiscount {
 
 	double getDiscountFactor();
 
-	void addDiscountedProduct(IProduct product);
+	void addDiscountedProduct(String barcode);
 
 	double processDiscount(IProduct product);
 

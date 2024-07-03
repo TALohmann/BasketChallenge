@@ -1,8 +1,9 @@
 package de.tabletopkiosk.basketchallenge.model;
 
+import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,8 +11,11 @@ import lombok.Getter;
 @Getter
 public class Basket implements IBasket {
 
-	@NotNull
-	private Map<String, IProduct> inventory;
+	@Builder.Default
+	private Map<String, IProduct> inventory = new HashMap<>();
+
+	@Builder.Default
+	private String currency = "Euro";
 
 	private IDiscount discountChain;
 
@@ -23,14 +27,12 @@ public class Basket implements IBasket {
 		} else {
 			productInInventory.addQuantity(product.getQuantity());
 		}
-
 	}
 
 	@Override
 	public void remove(IProduct product) {
 		IProduct productInInventory = inventory.get(product.getBarcode());
 		if (productInInventory != null) {
-			inventory.put(product.getBarcode(), product);
 			productInInventory.removeQuantity(product.getQuantity());
 			if (productInInventory.isEmpty()) {
 				inventory.remove(productInInventory.getBarcode());
@@ -53,4 +55,9 @@ public class Basket implements IBasket {
 		return totalPrice;
 	}
 
+	public String getFormattedTotal() {
+		String pattern = "###,###.##";
+		DecimalFormat decimalFormat = new DecimalFormat(pattern);
+		return decimalFormat.format(this.total()) + " " + currency;
+	}
 }
